@@ -1,5 +1,5 @@
 {
-  "name": "@dtolk/verbiage-plugin",
+  "name": "@digitaltolk/verbiage-plugin",
   "version": "1.0.0",
   "description": "Plugin for using Verbiage MS as Vue 2 i18n locale.",
   "main": "src/index.js",
