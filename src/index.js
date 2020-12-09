@@ -9,6 +9,9 @@ import isArray from 'lodash/isArray';
 import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
 
+const verbiageTermsLoadingStartedEvent = new CustomEvent('verbiageTermsLoadingStartedEvent');
+const verbiageTermsLoadingFinishedEvent = new CustomEvent('verbiageTermsLoadingFinishedEvent');
+
 export default class VerbiagePlugin {
 
   /**
@@ -26,11 +29,14 @@ export default class VerbiagePlugin {
           .then((r1) => {
 
             if (this.isThereAnUpdate(r1.data)) {
-              this.loadVerbiageTerms()
-                  .then((r2) => {
-                    this.storeVerbiageTerms(r2.data);
-                    this.refreshPage();
-                  })
+              document.dispatchEvent(verbiageTermsLoadingStartedEvent);
+              this.loadVerbiageTerms().then((r2) => {
+                this.storeVerbiageTerms(r2.data);
+                this.refreshPage();
+
+              }).finally(() => {
+                document.dispatchEvent(verbiageTermsLoadingFinishedEvent);
+              });
             }
           });
 
@@ -41,9 +47,12 @@ export default class VerbiagePlugin {
       this.loadLastUpdate().then((r) => {
         this.storeLastUpdate(r.data);
 
+        document.dispatchEvent(verbiageTermsLoadingStartedEvent);
         this.loadVerbiageTerms().then((r) => {
           this.storeVerbiageTerms(r.data);
           this.refreshPage();
+        }).finally(() => {
+          document.dispatchEvent(verbiageTermsLoadingFinishedEvent);
         });
       });
     }
@@ -235,9 +244,9 @@ export default class VerbiagePlugin {
    * @return {void}
    */
   refreshPage () {
-    setTimeout(() => {
-      location.reload();
-    }, 100);
+    // setTimeout(() => {
+    //   location.reload();
+    // }, 100);
   }
 
   // noinspection JSUnusedGlobalSymbols
