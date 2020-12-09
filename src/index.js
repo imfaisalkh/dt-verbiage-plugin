@@ -244,9 +244,9 @@ export default class VerbiagePlugin {
    * @return {void}
    */
   refreshPage () {
-    // setTimeout(() => {
-    //   location.reload();
-    // }, 100);
+    setTimeout(() => {
+      location.reload();
+    }, 100);
   }
 
   // noinspection JSUnusedGlobalSymbols
