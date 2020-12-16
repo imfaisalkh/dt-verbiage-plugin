@@ -8,6 +8,9 @@ import isObject from 'lodash/isObject';
 import isArray from 'lodash/isArray';
 import forEach from 'lodash/forEach';
 import isEqual from 'lodash/isEqual';
+import customEventPolyfill from './polyfills/customEventPolyfill';
+
+customEventPolyfill();
 
 const verbiageTermsLoadingStartedEvent = new CustomEvent('verbiageTermsLoadingStartedEvent');
 const verbiageTermsLoadingFinishedEvent = new CustomEvent('verbiageTermsLoadingFinishedEvent');
