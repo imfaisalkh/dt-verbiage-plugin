@@ -26,8 +26,11 @@ export default class VerbiagePlugin {
   constructor (options = {}) {
     this.baseUrl = !isNil(options.baseUrl) ? options.baseUrl : URLS.DEFAULT_BASE;
     this.locales = !isNil(options.locales) ? options.locales : ['en', 'se'];
-
-    if (this.isLocalesExistAndUnchanged()) {
+    
+    if (
+        this.isLocalesExistAndUnchanged()
+        && this.isValidLocalesCache()
+    ) {
       this.loadLastUpdate()
           .then((r1) => {
 
@@ -235,12 +238,35 @@ export default class VerbiagePlugin {
   isLocalesExistAndUnchanged () {
     const stored = this.getStoredLocales();
 
-    if (!isNil(stored) && !isEmpty(stored)) {
+    if (!isEmpty(stored)) {
       return isEqual(stored.sort(), this.locales.sort());
 
     } else {
       return false;
     }
+  }
+
+  /**
+   * @return {boolean}
+   */
+  isValidLocalesCache () {
+    const storedLocales = this.getStoredLocales();
+    let bool = true;
+
+    if (isEmpty(storedLocales)) {
+      bool = false;
+
+    } else {
+      for (let i = 0; i < storedLocales.length; i++) {
+        const verbiage = localStorage.getItem(STORAGE_KEYS.TERM_PREFIX + storedLocales[i]);
+        if (verbiage == null) {
+          bool = false;
+          break;
+        }
+      }
+    }
+
+    return bool;
   }
 
   /**
