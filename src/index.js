@@ -21,11 +21,13 @@ export default class VerbiagePlugin {
    * @param {Object} options - container for optional values.
    * @param {string} options.baseUrl - Optional value for setting baseUrl of Verbiage MS API.
    * @param {string[]} options.locales - Collection of locales that will be requested from the API.
+   * @param {string} options.locales - Optional value for setting tag of Verbiage MS API.
    * @return {void}
    */
   constructor (options = {}) {
     this.baseUrl = !isNil(options.baseUrl) ? options.baseUrl : URLS.DEFAULT_BASE;
     this.locales = !isNil(options.locales) ? options.locales : ['en', 'se'];
+    this.tag = !isNil(options.tag) ? options.tag : 'dt-ct';
     
     if (
         this.isLocalesExistAndUnchanged()
@@ -71,7 +73,10 @@ export default class VerbiagePlugin {
     return new Promise((resolve, reject) => {
       const method = 'GET';
       const url = `${this.baseUrl}${URLS.GENERATE}`;
-      const params = {locales: this.locales.join(',')};
+      const params = {
+        locales: this.locales.join(','),
+        tag: this.tag
+      };
 
       axios({method, url, params})
         .then((r) => {
