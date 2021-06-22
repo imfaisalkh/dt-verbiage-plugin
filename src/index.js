@@ -27,7 +27,7 @@ export default class VerbiagePlugin {
   constructor (options = {}) {
     this.baseUrl = !isNil(options.baseUrl) ? options.baseUrl : URLS.DEFAULT_BASE;
     this.locales = !isNil(options.locales) ? options.locales : ['en', 'se'];
-    this.tag = !isNil(options.tag) ? options.tag : 'dt-ct';
+    // this.tag = !isNil(options.tag) ? options.tag : 'dt-ct';
     
     if (
         this.isLocalesExistAndUnchanged()
@@ -75,7 +75,7 @@ export default class VerbiagePlugin {
       const url = `${this.baseUrl}${URLS.GENERATE}`;
       const params = {
         locales: this.locales.join(','),
-        tag: this.tag
+        // tag: this.tag
       };
 
       axios({method, url, params})
