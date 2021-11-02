@@ -40,7 +40,6 @@ export default class VerbiagePlugin {
               document.dispatchEvent(verbiageTermsLoadingStartedEvent);
               this.loadVerbiageTerms().then((r2) => {
                 this.storeVerbiageTerms(r2.data);
-                this.refreshPage();
 
               }).finally(() => {
                 document.dispatchEvent(verbiageTermsLoadingFinishedEvent);
@@ -58,7 +57,6 @@ export default class VerbiagePlugin {
         document.dispatchEvent(verbiageTermsLoadingStartedEvent);
         this.loadVerbiageTerms().then((r) => {
           this.storeVerbiageTerms(r.data);
-          this.refreshPage();
         }).finally(() => {
           document.dispatchEvent(verbiageTermsLoadingFinishedEvent);
         });
@@ -272,15 +270,6 @@ export default class VerbiagePlugin {
     }
 
     return bool;
-  }
-
-  /**
-   * @return {void}
-   */
-  refreshPage () {
-    setTimeout(() => {
-      location.reload();
-    }, 100);
   }
 
   // noinspection JSUnusedGlobalSymbols
